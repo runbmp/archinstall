@@ -41,14 +41,11 @@ passwd ben
 
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-su ben
-cd "$HOME" || (echo "home does not exist" && return)
+sudo -u ben sh -c 'cd "$HOME" && echo ".cfg" >> .gitignore'
+sudo -u ben sh -c 'cd "$HOME" && git clone https://github.com/runbmp/dotfiles.git "$HOME/.dotfiles"'
+sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" config --local status.showUntrackedFiles no'
+sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" checkout master'
+sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" pull'
 
-echo ".cfg" >> .gitignore
-git clone https://github.com/runbmp/dotfiles.git "$HOME/.dotfiles"
-/usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" config --local status.showUntrackedFiles no
-/usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" checkout master
-/usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" pull
-
-chmod +x ./.bootstrap.sh
-./.bootstrap.sh
+sudo -u ben sh -c 'cd "$HOME" && chmod +x "$HOME"/.bootstrap.sh'
+sudo -u ben sh -c 'cd "$HOME" && ./.bootstrap.sh'
