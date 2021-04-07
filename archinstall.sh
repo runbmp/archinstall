@@ -45,4 +45,10 @@ pacstrap /mnt base base-devel linux linux-firmware linux-lts vi btrfs-progs grub
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt
+curl https://raw.githubusercontent.com/runbmp/archinstall/main/archchrootinstall.sh -o archchrootinstall.sh
+
+chmod +X archchrootinstall.sh
+
+cp archchrootinstall.sh /mnt/
+
+arch-chroot /mnt ./archchrootinstall.sh
