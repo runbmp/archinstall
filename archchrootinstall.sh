@@ -41,11 +41,12 @@ passwd ben
 
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-sudo -u ben sh -c 'cd "$HOME" && echo ".cfg" >> .gitignore'
+sudo -u ben sh -c 'cd "$HOME" && echo ".dotfiles" >> .gitignore'
 sudo -u ben sh -c 'cd "$HOME" && git clone https://github.com/runbmp/dotfiles.git "$HOME/.dotfiles"'
 sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" config --local status.showUntrackedFiles no'
 sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" checkout master'
 sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" pull'
+sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" restore .'
 
 sudo -u ben sh -c 'cd "$HOME" && chmod +x "$HOME"/.bootstrap.sh'
 sudo -u ben sh -c 'cd "$HOME" && ./.bootstrap.sh'
