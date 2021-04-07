@@ -47,7 +47,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 curl https://raw.githubusercontent.com/runbmp/archinstall/main/archchrootinstall.sh -o archchrootinstall.sh
 
-chmod +X archchrootinstall.sh
+chmod +x archchrootinstall.sh
 
 cp archchrootinstall.sh /mnt/
 
