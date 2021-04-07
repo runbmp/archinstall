@@ -26,6 +26,7 @@ sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
 
 mkinitcpio -P
 
+echo "enter root password"
 passwd
 
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
@@ -37,6 +38,7 @@ sed -i 's/^#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 useradd -mG wheel ben
+"echo enter password for ben"
 passwd ben
 
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
@@ -49,4 +51,4 @@ sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" -
 sudo -u ben sh -c 'cd "$HOME" && /usr/bin/git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" restore .'
 
 sudo -u ben sh -c 'cd "$HOME" && chmod +x "$HOME"/.bootstrap.sh'
-sudo -u ben sh -c 'cd "$HOME" && ./.bootstrap.sh'
+sudo -u ben sh -c 'cd "$HOME" && "$HOME"/.bootstrap.sh'
