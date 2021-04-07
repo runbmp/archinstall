@@ -89,7 +89,7 @@ passwd ben
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 su ben
-cd "$HOME" || echo "home does not exist" && return
+cd "$HOME" || (echo "home does not exist" && return)
 
 echo ".cfg" >> .gitignore
 git clone https://github.com/runbmp/dotfiles.git "$HOME/.dotfiles"
