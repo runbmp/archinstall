@@ -22,13 +22,13 @@ mkfs.fat -f -F32 "$DISKDEV"1
 mkfs.btrfs -f "$DISKDEV"2
 
 mount "$DISKDEV"2 /mnt
-cd /mnt || echo "couldn't cd into /mnt" && return
+cd /mnt || (echo "couldn't cd into /mnt" && return)
 
 btrfs subvolume create @
 btrfs subvolume create @home
 btrfs subvolume create @snapshots
 btrfs subvolume create @var_log
-cd || echo "couldn't cd into /" && return
+cd || (echo "couldn't cd into /" && return)
 
 umount /mnt
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@ "$DISKDEV"2 /mnt
