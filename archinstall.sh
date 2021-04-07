@@ -18,8 +18,8 @@ sgdisk -n 1:0:+500M -t 1:ef00 "$DISKDEV"
 sgdisk -n 2:0:0 "$DISKDEV"
 sgdisk -p "$DISKDEV"
 
-mkfs.fat -F32 "$DISKDEV"1
-mkfs.btrfs "$DISKDEV"2
+mkfs.fat -f -F32 "$DISKDEV"1
+mkfs.btrfs -f "$DISKDEV"2
 
 mount "$DISKDEV"2 /mnt
 cd /mnt || echo "couldn't cd into /mnt" && return
