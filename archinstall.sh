@@ -4,7 +4,7 @@ ip link
 
 ping google.com -c 1
 
-reflector --country US --latest 100 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --country US --latest 100 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 timedatectl set-ntp true
 
