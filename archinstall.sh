@@ -41,10 +41,10 @@ mkdir /mnt/swap
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@home "$DISKDEV"2 /mnt/home
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@snapshots "$DISKDEV"2 /mnt/.snapshots
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@var_log "$DISKDEV"2 /mnt/var/log
-mount -o defaults,noatime,subvol=@swap /dev/sda1 /swap
+mount -o defaults,noatime,subvol=@swap "$DISKDEV"2 /swap
 mount "$DISKDEV"1 /mnt/boot/efi
 
-pacstrap /mnt base base-devel linux linux-firmware linux-lts vi btrfs-progs grub efibootmgr git
+pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
