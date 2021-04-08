@@ -36,7 +36,7 @@ statusprint "add btrfs to mkinitcpio and run for all installed kernels"
 sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
-statusprint "install refind bootloader
+statusprint "install refind bootloader"
 refind-install
 
 statusprint "setup root password" "1;33"
