@@ -2,11 +2,11 @@
 
 statusprint() {
   printf "\n"
-  printf "\033[${2:-1;34}%s\033[0m\n" "**********"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*  $1"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*"
-  printf "\033[${2:-1;34}%s\033[0m\n" "**********"
+  printf "\033[${2:-1;34}m**********\033[0m\n"
+  printf "\033[${2:-1;34}m*\033[0m\n"
+  printf "\033[${2:-1;34}m* $1\033[0m\n"
+  printf "\033[${2:-1;34}m*\033[0m\n"
+  printf "\033[${2:-1;34}m**********\033[0m\n"
   printf "\n"
 }
 
@@ -39,10 +39,10 @@ mkinitcpio -P
 statusprint "install refind bootloader
 refind-install
 
-statusprint "setup root password"
+statusprint "setup root password" "1;33"
 passwd
 
-statusprint "setup new user ben password and add wheel as sudoer"
+statusprint "setup new user ben password and add wheel as sudoer" "1;33"
 useradd -mG wheel ben
 passwd ben
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
