@@ -2,11 +2,11 @@
 
 statusprint() {
   printf "\n"
-  printf "\033[${2:-1;34}%s\033[0m\n" "**********"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*  $1"
-  printf "\033[${2:-1;34}%s\033[0m\n" "*"
-  printf "\033[${2:-1;34}%s\033[0m\n" "**********"
+  printf "\033[${2:-1;34}m**********\033[0m\n"
+  printf "\033[${2:-1;34}m*\033[0m\n"
+  printf "\033[${2:-1;34}m* $1\033[0m\n"
+  printf "\033[${2:-1;34}m*\033[0m\n"
+  printf "\033[${2:-1;34}m**********\033[0m\n"
   printf "\n"
 }
 
@@ -26,7 +26,7 @@ timedatectl set-ntp true
 statusprint "fdisk info"
 fdisk -l
 
-statusprint "enter the disk you wish to blow away and install arch to" "1;34"
+statusprint "enter the disk you wish to blow away and install arch to" "1;33"
 read -r DISKDEV
 
 statusprint "gdisking to create efi and root partitions"
