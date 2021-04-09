@@ -67,7 +67,7 @@ mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /swap
 mount "$DISKDEV"p1 /mnt/boot/efi
 
 statusprint "pacstrap base packages"
-pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git networkmanager
+pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git networkmanager reflector
 
 statusprint "genfstab"
 genfstab -U /mnt >> /mnt/etc/fstab
