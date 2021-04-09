@@ -37,11 +37,11 @@ sgdisk -n 2:0:0 "$DISKDEV"
 sgdisk -p "$DISKDEV"
 
 statusprint "mkfs on new partitions"
-mkfs.fat -f -F32 "$DISKDEV"1
-mkfs.btrfs -f "$DISKDEV"2
+mkfs.fat -f -F32 "$DISKDEV"p1
+mkfs.btrfs -f "$DISKDEV"p2
 
 statusprint "mount root to /mnt"
-mount "$DISKDEV"2 /mnt
+mount "$DISKDEV"p2 /mnt
 cd /mnt || (echo "couldn't cd into /mnt" && return)
 
 statusprint "create btrfs subvolumes"
@@ -54,17 +54,17 @@ cd || (echo "couldn't cd into /" && return)
 
 statusprint "create directories and mount btrfs subvolumes"
 umount /mnt
-mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@ "$DISKDEV"2 /mnt
+mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@ "$DISKDEV"p2 /mnt
 mkdir -p /mnt/boot/efi
 mkdir /mnt/home
 mkdir /mnt/.snapshots
 mkdir -p /mnt/var/log
 mkdir /mnt/swap
-mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@home "$DISKDEV"2 /mnt/home
-mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@snapshots "$DISKDEV"2 /mnt/.snapshots
-mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@var_log "$DISKDEV"2 /mnt/var/log
-mount -o defaults,noatime,subvol=@swap "$DISKDEV"2 /swap
-mount "$DISKDEV"1 /mnt/boot/efi
+mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@home "$DISKDEV"p2 /mnt/home
+mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@snapshots "$DISKDEV"p2 /mnt/.snapshots
+mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@var_log "$DISKDEV"p2 /mnt/var/log
+mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /swap
+mount "$DISKDEV"p1 /mnt/boot/efi
 
 statusprint "pacstrap base packages"
 pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git networkmanager
