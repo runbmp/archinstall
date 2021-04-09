@@ -18,12 +18,13 @@ statusprint "ping check"
 ping google.com -c 1
 
 statusprint "reflector update for pacman mirrors"
-reflector --verbose --country US --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --country US --latest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 statusprint "timedatectl set ntp"
 timedatectl set-ntp true
 
 statusprint "lsblk info"
+fdisk -l
 lsblk
 
 statusprint "enter the disk you wish to blow away and install arch to" "1;33"
