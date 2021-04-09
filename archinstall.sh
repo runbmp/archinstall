@@ -49,13 +49,13 @@ btrfs subvolume create @
 btrfs subvolume create @home
 btrfs subvolume create @snapshots
 btrfs subvolume create @var_log
-btrfs subvolume create @swapfile
+btrfs subvolume create @swap
 cd || (echo "couldn't cd into /" && return)
 
 statusprint "create directories and mount btrfs subvolumes"
 umount /mnt
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@ "$DISKDEV"p2 /mnt
-mkdir -p /mnt/boot/efi
+mkdir -p /mnt/efi
 mkdir /mnt/home
 mkdir /mnt/.snapshots
 mkdir -p /mnt/var/log
@@ -63,11 +63,17 @@ mkdir /mnt/swap
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@home "$DISKDEV"p2 /mnt/home
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@snapshots "$DISKDEV"p2 /mnt/.snapshots
 mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@var_log "$DISKDEV"p2 /mnt/var/log
-mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /swap
-mount "$DISKDEV"p1 /mnt/boot/efi
+mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /mnt/swap
+mount "$DISKDEV"p1 /mnt/efi
+
+cd /mnt/swap
+truncate -s 0 ./swapfile
+chattr +C ./swapfile
+btrfs property set ./swapfile compression none
+cd
 
 statusprint "pacstrap base packages"
-pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git networkmanager reflector
+pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs grub os-prober efibootmgr git networkmanager reflector iwd vi
 
 statusprint "genfstab"
 genfstab -U /mnt >> /mnt/etc/fstab
