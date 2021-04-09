@@ -13,6 +13,7 @@ statusprint() {
 DISKDEV="$1"
 if [ -z "$DISKDEV" ]; then
   statusprint "lsblk info"
+  fdisk -l
   lsblk
 
   statusprint "disk device was not passed, please reconfirm" "1;33"
