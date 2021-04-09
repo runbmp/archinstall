@@ -10,15 +10,15 @@ statusprint() {
   printf "\n"
 }
 
-DISKDEV="$1"
-if [ -z "$DISKDEV" ]; then
-  statusprint "lsblk info"
-  fdisk -l
-  lsblk
+#DISKDEV="$1"
+#if [ -z "$DISKDEV" ]; then
+#  statusprint "lsblk info"
+#  fdisk -l
+#  lsblk
 
-  statusprint "disk device was not passed, please reconfirm" "1;33"
-  read -r DISKDEV
-fi
+#  statusprint "disk device was not passed, please reconfirm" "1;33"
+#  read -r DISKDEV
+#fi
 
 statusprint "set timezone in /etc/localtime"
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
@@ -47,8 +47,8 @@ statusprint "run mkinitcpio for all installed kernels"
 #sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
-statusprint "install refind bootloader to 'DISKDEV'1"
-refind-install --usedefault "$DISKDEV"1
+statusprint "install refind bootloader"
+refind-install
 
 statusprint "setup root password" "1;33"
 passwd
