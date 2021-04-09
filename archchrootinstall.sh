@@ -20,6 +20,20 @@ statusprint() {
 #  read -r DISKDEV
 #fi
 
+cd /swap
+truncate -s 0 ./swapfile
+chattr +C ./swapfile
+btrfs property set ./swapfile compression none
+dd if=/dev/zero of=/swap/swapfile bs=1M count=16384 status=progress
+chmod 600 swapfile
+mkswap swapfile
+swapon swapfile
+
+echo "/n" > /etc/fstab
+echo "# /dev/nvme0n1p5/n" > /etc/fstab
+echo "/swapfile none swap defaults 0 0" > /etc/fstab
+cat /etc/fstab
+
 statusprint "set timezone in /etc/localtime"
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 
