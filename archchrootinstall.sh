@@ -2,13 +2,22 @@
 
 statusprint() {
   printf "\n"
-  printf "\033[${2:-1;34}m**********\033[0m\n"
-  printf "\033[${2:-1;34}m*\033[0m\n"
-  printf "\033[${2:-1;34}m* $1\033[0m\n"
-  printf "\033[${2:-1;34}m*\033[0m\n"
-  printf "\033[${2:-1;34}m**********\033[0m\n"
+  printf "\033[%sm**********\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm*\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm* %s\033[0m\n"  "$1" "${2:-1;34}"
+  printf "\033[%sm*\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm**********\033[0m\n" "${2:-1;34}"
   printf "\n"
 }
+
+DISKDEV="$1"
+if [ -z "$DISKDEV" ]; then
+  statusprint "lsblk info"
+  lsblk
+
+  statusprint "disk device was not passed, please reconfirm" "1;33"
+  read -r DISKDEV
+fi
 
 statusprint "set timezone in /etc/localtime"
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
@@ -32,12 +41,13 @@ echo "\
 127.0.1.1	$MYHOST.localdomain	$MYHOST
 "
 
-statusprint "add btrfs to mkinitcpio and run for all installed kernels"
-sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
+statusprint "run mkinitcpio for all installed kernels"
+#todo this is only for partitionless install?
+#sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
-statusprint "install refind bootloader"
-refind-install
+statusprint "install refind bootloader to 'DISKDEV'1"
+refind-install --usedefault "$DISKDEV"1
 
 statusprint "setup root password" "1;33"
 passwd
