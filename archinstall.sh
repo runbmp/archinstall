@@ -66,12 +66,6 @@ mount -o noatime,compress=lzo,space_cache=v2,discard=async,subvol=@var_log "$DIS
 mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /mnt/swap
 mount "$DISKDEV"p1 /mnt/efi
 
-cd /mnt/swap
-truncate -s 0 ./swapfile
-chattr +C ./swapfile
-btrfs property set ./swapfile compression none
-cd
-
 statusprint "pacstrap base packages"
 pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs grub os-prober efibootmgr git networkmanager reflector iwd vi
 
