@@ -2,11 +2,11 @@
 
 statusprint() {
   printf "\n"
-  printf "\033[${2:-1;34}m**********\033[0m\n"
-  printf "\033[${2:-1;34}m*\033[0m\n"
-  printf "\033[${2:-1;34}m* $1\033[0m\n"
-  printf "\033[${2:-1;34}m*\033[0m\n"
-  printf "\033[${2:-1;34}m**********\033[0m\n"
+  printf "\033[%sm**********\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm*\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm* %s\033[0m\n"  "$1" "${2:-1;34}"
+  printf "\033[%sm*\033[0m\n" "${2:-1;34}"
+  printf "\033[%sm**********\033[0m\n" "${2:-1;34}"
   printf "\n"
 }
 
@@ -23,8 +23,8 @@ reflector --verbose --country US --latest 20 --protocol https --sort rate --save
 statusprint "timedatectl set ntp"
 timedatectl set-ntp true
 
-statusprint "fdisk info"
-fdisk -l
+statusprint "lsblk info"
+lsblk
 
 statusprint "enter the disk you wish to blow away and install arch to" "1;33"
 read -r DISKDEV
@@ -66,7 +66,7 @@ mount -o defaults,noatime,subvol=@swap "$DISKDEV"2 /swap
 mount "$DISKDEV"1 /mnt/boot/efi
 
 statusprint "pacstrap base packages"
-pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git
+pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs refind efibootmgr git networkmanager
 
 statusprint "genfstab"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -75,4 +75,4 @@ statusprint "curl next script for use in new arch-chroot environment"
 curl https://raw.githubusercontent.com/runbmp/archinstall/main/archchrootinstall.sh -o archchrootinstall.sh
 chmod +x archchrootinstall.sh
 cp archchrootinstall.sh /mnt/
-arch-chroot /mnt ./archchrootinstall.sh
+arch-chroot /mnt ./archchrootinstall.sh "$DISKDEV"
