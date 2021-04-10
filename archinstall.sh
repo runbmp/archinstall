@@ -14,11 +14,15 @@ statusprint "ip info"
 ip link
 ip a
 
+station wlan0 scan
+station wlan0 get-networks
+#station wlan0 connect "404 (Not Found)"
+
 statusprint "ping check"
 ping google.com -c 1
 
 statusprint "reflector update for pacman mirrors"
-reflector --verbose --country US --latest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --country US --latest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 statusprint "timedatectl set ntp"
 timedatectl set-ntp true
@@ -67,7 +71,7 @@ mount -o defaults,noatime,subvol=@swap "$DISKDEV"p2 /mnt/swap
 mount "$DISKDEV"p1 /mnt/efi
 
 statusprint "pacstrap base packages"
-pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs grub os-prober efibootmgr git networkmanager reflector iwd vi
+pacstrap /mnt base base-devel linux linux-firmware linux-lts btrfs-progs grub os-prober efibootmgr git networkmanager reflector snapper vi amd-ucode xf86-video-amdgpu
 
 statusprint "genfstab"
 genfstab -U /mnt >> /mnt/etc/fstab
