@@ -70,6 +70,7 @@ passwd
 statusprint "setup new user ben password and add wheel as sudoer" "1;33"
 useradd -mG wheel ben
 usermod -a -G video ben
+usermod -a -G lp ben
 passwd ben
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
