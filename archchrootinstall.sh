@@ -57,9 +57,7 @@ echo "\
 " >> /etc/hosts
 
 statusprint "run mkinitcpio for all installed kernels"
-#todo this is only for partitionless install?
-#sed -i 's/^MODULES()/MODULES(btrfs)/' /etc/mkinitcpio.conf
-sed -i 's/^MODULES()/MODULES(amdgpu)/' /etc/mkinitcpio.conf
+# sed add resume between fssystems and fsck
 mkinitcpio -P
 
 statusprint "install grub bootloader"
